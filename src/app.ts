@@ -2,9 +2,8 @@ import { graphqlHTTP } from 'express-graphql';
 import { ApolloServer } from 'apollo-server-express';
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 import express, { Application, NextFunction, Request, Response } from 'express';
-
 import { feeds } from '../dummyData';
-
+import fetch from 'node-fetch';
 const app: Application = express();
 
 const FeedType = new GraphQLObjectType({
@@ -24,7 +23,12 @@ const query = new GraphQLObjectType({
     feedAvailability: {
       type: FeedType,
       // args: { id: { type: GraphQLString } },
-      resolve: () => feeds,
+      resolve: async () => {
+        let feeds = await fetch('https://wikimedia.org/api/rest_v1/feed/availability');
+        feeds = await feeds.json();
+        console.log(feeds);
+        return feeds;
+      },
     },
   },
 });
