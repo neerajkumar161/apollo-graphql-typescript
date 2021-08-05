@@ -1,0 +1,12 @@
+type Feed {
+  todays_featured_article: [String]
+  most_read: [String]
+  picture_of_the_day: [String]
+  in_the_news: [String]
+  on_this_day: [String]
+  hey: String
+}
+
+type Query {
+  feedAvailability: Feed
+}

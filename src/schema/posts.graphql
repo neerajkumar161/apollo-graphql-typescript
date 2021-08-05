@@ -1,0 +1,25 @@
+type Post {
+  userId: ID
+  id: ID
+  title: String
+  body: String
+}
+type PostComment {
+  postId: ID
+  id: ID
+  name: String
+  email: String
+  body: String
+}
+
+type PostInfo {
+  postDetails: Post
+  postComments: [PostComment]
+}
+
+type Query {
+  get10Posts: [Post]
+  getPostDetails(id: ID!): Post
+  getPostComments(id: ID!): [PostComment]
+  postInfo(id: ID!): PostInfo
+}

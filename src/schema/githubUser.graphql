@@ -1,0 +1,16 @@
+#Schema Directives
+directive @deprecated(reason: String = "No longer supported") on FIELD_DEFINITION | ENUM_VALUE
+
+type gitUser {
+  login: String
+  id: Int
+  node_id: String
+  avatar_url: String
+  url: String @deprecated(reason: "User anoter field - deprecated")
+  bio: String
+  public_repos: Int
+}
+
+type Query {
+  githubUser(username: String!): gitUser
+}

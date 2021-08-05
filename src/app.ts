@@ -1,19 +1,29 @@
-import { typeDefs } from './typeDefs';
-import { resolvers } from './resolvers';
-import { graphqlHTTP } from 'express-graphql';
 import { ApolloServer } from 'apollo-server-express';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
-const app: Application = express();
+import { resolvers, typeDefs } from './mergedDefsResolvers';
 
-app.get('/test', (req: Request, res: Response, next: NextFunction) => {
-  res.json({ message: 'This is test page' });
+const app: Application = express();
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+// Test Api - Convention should be /health
+app.get('/health', (req: Request, res: Response, next: NextFunction) => {
+  res.json({ message: 'Server is running' });
 });
 
 // app.use('/myGraphql', graphqlHTTP({ schema, graphiql: true }));
-
-// const apolloServer = new ApolloServer({ schema });
-const apolloServer = new ApolloServer({ resolvers, typeDefs });
+const apolloServer = new ApolloServer({
+  schema,
+  // This context is universal to all resolvers, usage like for auth token
+  context: () => ({
+    contextObj: {
+      name: 'Neeraj',
+      lastName: 'Kumar',
+      token: 'mysecrettoken',
+    },
+  }),
+});
 
 app.listen(4000, async () => {
   console.log('Server is listening on port 4000');

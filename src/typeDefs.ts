@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server-core';
 
+//how to use multiple types from different file
 export const typeDefs = gql`
   type Book {
     title: String

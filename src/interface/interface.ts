@@ -12,3 +12,15 @@ export interface PostComment {
   email: string;
   body: string;
 }
+
+export interface Args {
+  id: String;
+}
+
+export interface Context {
+  contextObj: {
+    name: String;
+    lastName: String;
+    token: String;
+  };
+}
