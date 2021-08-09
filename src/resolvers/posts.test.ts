@@ -1,23 +1,24 @@
-import Posts from './posts';
+import * as mockData from '../mocks/default.json';
 
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
-test('Will Get 10 Posts or not', async () => {
-  expect(await Posts.Query.get10Posts()).toHaveLength(10);
+test('should get 10 posts', () => {
+  // Make Sure to add return statement when resolving promises, otherwise memory leak will be there
+  const testPosts = mockData.data.get10Posts.slice(0, 10);
+  expect(testPosts).toHaveLength(10);
 });
 
-test('Get Post Info and Comments', async () => {
-  const postId = { id: 1 };
-  expect(await Posts.PostInfo.postDetails(postId)).toMatchObject(
+test('should get postInfo and comments', () => {
+  const postInfo = mockData.data.postInfo.postDetails;
+  expect(postInfo).toMatchObject(
     expect.objectContaining({
-      userId: expect.any(Number),
-      id: expect.any(Number),
+      userId: expect.any(String),
+      id: expect.any(String),
       title: expect.any(String),
       body: expect.any(String),
     })
   );
+});
+
+test('should get postComments', () => {
+  const postComments = mockData.data.postInfo.postComments.filter((comnts) => (comnts.postId = '1'));
+  expect(postComments).toEqual(expect.arrayContaining([]));
 });
