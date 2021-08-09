@@ -25,7 +25,7 @@ export const feedResolvers = {
 export const postResolver = {
   Query: {
     //proper variable naming
-    get10Posts: async (parent: any, args: Args) => {
+    get10Posts: async (parent: any, args: any) => {
       let response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
       let posts: Array<Post> = await response.json();
 

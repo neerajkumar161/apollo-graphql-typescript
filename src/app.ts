@@ -2,10 +2,10 @@ import { ApolloServer } from 'apollo-server-express';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
-import { resolvers, typeDefs } from './mergedDefsResolvers';
+import { resolvers, typeDefs, gatewaySchema } from './mergedDefsResolvers';
 
 const app: Application = express();
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+// const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 // Test Api - Convention should be /health
 app.get('/health', (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@ app.get('/health', (req: Request, res: Response, next: NextFunction) => {
 
 // app.use('/myGraphql', graphqlHTTP({ schema, graphiql: true }));
 const apolloServer = new ApolloServer({
-  schema,
+  schema: gatewaySchema,
   // This context is universal to all resolvers, usage like for auth token
   context: () => ({
     contextObj: {
