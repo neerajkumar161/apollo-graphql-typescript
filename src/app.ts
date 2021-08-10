@@ -3,7 +3,9 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import express, { Application, NextFunction, Request, Response } from 'express';
 
 import { resolvers, typeDefs, gatewaySchema } from './mergedDefsResolvers';
+import dataloader from '../dataloader';
 
+dataloader();   // N + 1 problem solution in GraphQL
 const app: Application = express();
 // const schema = makeExecutableSchema({ typeDefs, resolvers });
 
